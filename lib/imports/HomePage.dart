@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '';
 
 class HomePage extends StatefulWidget {
 
@@ -13,7 +14,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     User? user = FirebaseAuth.instance.currentUser;
-    print(user?.photoURL);
+    var userImage = user?.photoURL;
+
 
     return new Scaffold(
 
@@ -26,7 +28,7 @@ class _HomePageState extends State<HomePage> {
               onTap: () {
                 Navigator.of(context).pushNamed('/profilePage');
               },
-                child: Container(
+                child: userImage != null ? Container(
                   alignment: Alignment.center,
                   height: 40,
                   width: 40,
@@ -41,12 +43,12 @@ class _HomePageState extends State<HomePage> {
                       ],
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                        image:NetworkImage("https://lh3.googleusercontent.com/a-/AOh14Gi3y6A95toetsgWvYDw_g71XbbP-uj-r2rD3fuy=s96-c"),
+                        image:NetworkImage(userImage),
                         fit: BoxFit.fill,
                       )
                   ),
-                )
-            ),
+                ) : CircularProgressIndicator(color: Colors.white),
+            )  ,
 
           ],
         ),
@@ -63,7 +65,7 @@ class _HomePageState extends State<HomePage> {
               OutlinedButton(
                 child: Text('Logout'),
                   onPressed: ()  async {
-                    await FirebaseAuth.instance.signOut();
+
 
               },
               )

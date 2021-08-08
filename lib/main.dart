@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:haggle/imports/LoginPage.dart';
 import 'package:haggle/imports/ProfilePage.dart';
-import 'package:haggle/imports/SignupPage.dart';
 import 'package:haggle/imports/HomePage.dart';
 
 void main() async {
@@ -22,12 +21,14 @@ class MyApp extends StatelessWidget {
 
     return new MaterialApp(
       home: user?.uid != null ? HomePage() : LoginPage(),
-      routes: <String, WidgetBuilder>{
+      routes: user?.uid != null ? (<String, WidgetBuilder>{
         '/landingPage': (BuildContext context) => new MyApp(),
-        '/signup': (BuildContext context) => new SignupPage(),
         '/homePage': (BuildContext context) => new HomePage(),
         '/profilePage': (BuildContext context) => new ProfilePage(),
-      }
+      }) :  (<String, WidgetBuilder>{
+        '/landingPage': (BuildContext context) => new MyApp(),
+        '/homePage': (BuildContext context) => new HomePage(),
+      })
     );
   }
 }

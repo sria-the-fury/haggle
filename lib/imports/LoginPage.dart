@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:haggle/utilities/FlutterToast.dart';
 
 class LoginPage extends StatefulWidget{
   @override
@@ -9,8 +10,6 @@ class LoginPage extends StatefulWidget{
 
 class _LoginPageState extends State<LoginPage>{
 
-  late String _email;
-  late String _password;
 
 
   @override
@@ -24,41 +23,22 @@ class _LoginPageState extends State<LoginPage>{
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  TextField(
-                    decoration: InputDecoration(hintText: 'Email'),
-                    onChanged: (value) {
-                      setState(() {
-                        _email = value;
-                      });
-                    },
-                  ),
-
-                  SizedBox(height: 15.0),
-                  TextField(
-                    decoration: InputDecoration(hintText: 'Password'),
-                    onChanged: (value) {
-                      setState(() {
-                        _password = value;
-                      });
-                    },
-                  ),
-                  SizedBox(height: 15.0),
-                  ElevatedButton(
-                      child: Text('Login'),
-                      style: style,
-                      onPressed: (){
-                        FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password)
-                            .then((user){
-                          Navigator.of(context).pushReplacementNamed('/homePage');
-
-                        })
-                            .catchError((e) {
-                          print('Sign In : '+e);
-
-                        });
-                        print('Hello Login');
-                      }
-                  ),
+                  // ElevatedButton(
+                  //     child: Text('Login'),
+                  //     style: style,
+                  //     onPressed: (){
+                  //       FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password)
+                  //           .then((user){
+                  //         Navigator.of(context).pushReplacementNamed('/homePage');
+                  //
+                  //       })
+                  //           .catchError((e) {
+                  //         print('Sign In : '+e);
+                  //
+                  //       });
+                  //       print('Hello Login');
+                  //     }
+                  // ),
                   SizedBox(height: 15.0),
                   ElevatedButton(
                       child: Text('SignIn With Google'),
@@ -71,31 +51,22 @@ class _LoginPageState extends State<LoginPage>{
                             accessToken: googleAuth.accessToken,
                             idToken: googleAuth.idToken,
                           );
-                         var isSignIn =  await FirebaseAuth.instance.signInWithCredential(credential);
-                         print(isSignIn);
+                          var isSignIn =  await FirebaseAuth.instance.signInWithCredential(credential);
+                          print(isSignIn);
                           User? user = FirebaseAuth.instance.currentUser;
                           print(user?.uid);
                           if(user != null){
                             Navigator.of(context).pop();
                             Navigator.of(context).pushNamed('/homePage');
+                           FlutterToast().successToast('Logged in as','DEFAULT', 14.0, user.email);
                           }
 
                         } catch (e){
                           print(e);
                         }
 
-
                       }
                   ),
-                  SizedBox(height: 15.0),
-                  ElevatedButton(
-                      child: Text('Haven\'t an account?' ),
-                      style: style,
-                      onPressed: (){
-                        Navigator.of(context).pushNamed('/signup');
-                      }
-                  ),
-
                 ],
               )
           )
