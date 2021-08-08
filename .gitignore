@@ -7,3 +7,4 @@
 .packages
 android/.gradle/
 build/
+pubspec.lock
