@@ -26,6 +26,8 @@ dependencies:
   google_sign_in:
   firebase_core:
   fluttertoast:
+  carousel_slider:
+  flutter_countdown_timer:
   flutter:
     sdk: flutter
 

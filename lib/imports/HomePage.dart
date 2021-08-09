@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import '';
+import 'package:haggle/navigation/AuctionsAds.dart';
+import 'package:haggle/navigation/Dashboard.dart';
+import 'package:haggle/navigation/MyGranary.dart';
+
 
 class HomePage extends StatefulWidget {
 
@@ -10,69 +12,51 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
+  int selectedPage = 0;
+
+  final _pageOptions = [
+    AuctionsAds(),
+    MyGranary(),
+    Dashboard(),
+  ];
+
+
+
+  void _onItemTapped(int index) {
+    setState(() {
+      selectedPage = index;
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    User? user = FirebaseAuth.instance.currentUser;
-    var userImage = user?.photoURL;
-
 
     return new Scaffold(
-
-      appBar: new AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text('Haggle BD', textAlign: TextAlign.left),
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).pushNamed('/profilePage');
-              },
-                child: userImage != null ? Container(
-                  alignment: Alignment.center,
-                  height: 40,
-                  width: 40,
-                  decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.black.withOpacity(0.5),
-                            spreadRadius: 1,
-                            blurRadius: 10,
-                            offset: Offset(0, 3)
-                        )
-                      ],
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image:NetworkImage(userImage),
-                        fit: BoxFit.fill,
-                      )
-                  ),
-                ) : CircularProgressIndicator(color: Colors.white),
-            )  ,
-
-          ],
-        ),
-      ),
       body: Center(
-        child: Container(
-          child: new Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              new Text('You are logged in'),
-              SizedBox(
-                height: 15.0,
-              ),
-              OutlinedButton(
-                child: Text('Logout'),
-                  onPressed: ()  async {
-
-
-              },
-              )
-            ],
-          ),
-        ),
+          child: _pageOptions[selectedPage],
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.gavel),
+            label: 'Haggle',
+          ),
+
+          BottomNavigationBarItem(
+            icon: Icon(Icons.store),
+            label: 'My Granary',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.bar_chart),
+            label: 'Dashboard',
+          ),
+        ],
+        currentIndex: selectedPage,
+        selectedItemColor: Colors.blue[500],
+        onTap: _onItemTapped,
+      ),
+
     );
   }
 }

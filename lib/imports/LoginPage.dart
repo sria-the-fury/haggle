@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:haggle/imports/UserManagement.dart';
 import 'package:haggle/utilities/FlutterToast.dart';
 
 class LoginPage extends StatefulWidget{
@@ -52,13 +53,14 @@ class _LoginPageState extends State<LoginPage>{
                             idToken: googleAuth.idToken,
                           );
                           var isSignIn =  await FirebaseAuth.instance.signInWithCredential(credential);
-                          print(isSignIn);
+                          print(isSignIn.additionalUserInfo?.isNewUser);
                           User? user = FirebaseAuth.instance.currentUser;
-                          print(user?.uid);
+
                           if(user != null){
+                            if(isSignIn.additionalUserInfo?.isNewUser == true ) UserManagement().storeNewUser(user);
                             Navigator.of(context).pop();
                             Navigator.of(context).pushNamed('/homePage');
-                           FlutterToast().successToast('Logged in as','DEFAULT', 14.0, user.email);
+                            FlutterToast().successToast('Logged in as','DEFAULT', 14.0, user.email);
                           }
 
                         } catch (e){

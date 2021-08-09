@@ -1,7 +1,7 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
 export "FLUTTER_ROOT=/home/sria/FLUTTER_SDK/flutter"
-export "FLUTTER_APPLICATION_PATH=/home/sria/AndroidStudioProjects/flutter-app/haggle"
+export "FLUTTER_APPLICATION_PATH=/home/sria/AndroidStudioProjects/flutter-app/Haggle Git/haggle"
 export "COCOAPODS_PARALLEL_CODE_SIGN=true"
 export "FLUTTER_TARGET=lib/main.dart"
 export "FLUTTER_BUILD_DIR=build"

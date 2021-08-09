@@ -1,19 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/widgets.dart';
+import 'package:haggle/utilities/FlutterToast.dart';
 
 class UserManagement {
-  storeNewUser(user, context){
-    FirebaseFirestore.instance.collection('/users').add({
-      'email': user.email,
-      'userId': user.uid
-    }).then((value) {
-      Navigator.of(context).pop();
-      Navigator.of(context).pushReplacementNamed('/homePage');
+  storeNewUser (user) async{
 
-
-    }).catchError((e){
-      print(e);
+    try{
+      await FirebaseFirestore.instance.collection('/users').doc(user.uid).set({
+        'email': user.email,
+        'userId': user.uid,
+        'photoURL': user.photoURL,
+        'joinedAt': DateTime.now()
+      });
+    }catch(e){
+      FlutterToast().errorToast('@store :', 'BOTTOM', 14.0, e);
     }
-    );
+    finally{
+      FlutterToast().successToast('user added', 'BOTTOM', 14.0, null);
+    }
   }
 }
