@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/rendering.dart';
@@ -106,28 +107,18 @@ class ProfilePage extends StatelessWidget {
             ),
 
             Container(
+              child: Text('Hello'),
               decoration: BoxDecoration(color: Colors.black12,
                   borderRadius: BorderRadius.all(
                     Radius.circular(5.0))
               ),
               height: 120,
+              width: MediaQuery.of(context).size.width,
 
               padding: EdgeInsets.all(5.0),
               margin: new EdgeInsets.symmetric(horizontal: 10.0),
 
             ),
-
-            new Text('You are logged in'),
-            SizedBox(
-              height: 25.0,
-            ),
-            OutlinedButton(
-              child: Text('Logout'),
-              onPressed: () {
-                FlutterToast().warningToast('this is test', 'BOTTOM', 14.0, null);
-
-              },
-            )
           ],
         ),
       ),

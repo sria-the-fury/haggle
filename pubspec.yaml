@@ -28,6 +28,7 @@ dependencies:
   fluttertoast:
   carousel_slider:
   flutter_countdown_timer:
+  intl:
   flutter:
     sdk: flutter
 
