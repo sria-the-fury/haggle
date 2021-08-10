@@ -7,7 +7,7 @@ class Carousel {
 
     return CarouselSlider(
 
-      options: CarouselOptions(height: 200.0, enableInfiniteScroll: true),
+      options: CarouselOptions(height: 180.0, enableInfiniteScroll: true),
       items: images.map<Widget>((image) {
 
         return new Builder(

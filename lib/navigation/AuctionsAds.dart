@@ -65,7 +65,7 @@ class _AuctionsAdsState extends State<AuctionsAds> {
               scrollDirection: Axis.vertical,
               children: snapshot.data!.docs.map<Widget>((item){
 
-                return GesturedCard().card(item, context);
+                return GesturedCard(item);
               }).toList(),
             ) : Center( child: CircularProgressIndicator(color: Colors.blue[500],));
           }
