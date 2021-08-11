@@ -6,6 +6,7 @@ import 'package:haggle/utilities/BidsManagement.dart';
 class BottomModal extends StatefulWidget {
   final int lowestBidPrice;
   final String itemId;
+
   const BottomModal(this.lowestBidPrice, this.itemId);
 
   @override
@@ -77,6 +78,9 @@ class _BottomModalState extends State<BottomModal> {
                     BidsManagement().makeBid(price, user, itemId);
                     Navigator.pop(context);
                     price = '0';
+                    setState(() {
+
+                    });
                   } : null,
                 ),
                 hintText: 'Make your bid',

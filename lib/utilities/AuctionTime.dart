@@ -40,8 +40,8 @@ class AuctionTime{
 
    getPostedDay(time){
      DateTime date = DateTime.fromMillisecondsSinceEpoch(time.seconds * 1000, );
-     final fifteenAgo = date.subtract(new Duration());
-     return timeago.format(fifteenAgo);
+     final ago = date.subtract(new Duration());
+     return timeago.format(ago);
 
    }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:haggle/imports/UserManagement.dart';
+import 'package:haggle/utilities/AuctionTime.dart';
 
-class AuctionDataTable {
+class BidsDataTable {
 
   var users = [
     {
@@ -13,9 +15,14 @@ class AuctionDataTable {
       'bidPrice' : 121,
       'bidTime' : '1 hour ago'
     },
+    {
+      'userName' : 'John Doe',
+      'bidPrice' : 121,
+      'bidTime' : '1 hour ago'
+    },
   ];
 
-  table(context){
+  table(bidUsers, context){
     return Container(
           width: MediaQuery.of(context).size.width,
           margin: EdgeInsets.only(top: 5.0, bottom: 15.0) ,
@@ -33,7 +40,7 @@ class AuctionDataTable {
           ),
           padding: EdgeInsets.all(5.0),
 
-          child : SingleChildScrollView(
+          child : bidUsers.length != 0 ?  SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -59,29 +66,21 @@ class AuctionDataTable {
                       ),
                     ),
                   ],
-                  rows: users.map((user) =>
-                      DataRow(
-                        cells: <DataCell>[
+                  rows: bidUsers.map<DataRow>((user)=>
+                      new DataRow(
+                        color: MaterialStateColor.resolveWith((states) => Colors.transparent),
+                        cells:  <DataCell>[
                           DataCell(
-                              Row(
-                                  children: [
-                                    CircleAvatar(
-                                      backgroundImage: NetworkImage('https://images.pexels.com/users/avatars/939/jakaria-mashud-shahria-738.jpeg?w=200&h=200&fit=crop&crop=faces'),
-                                      radius: 10,
-                                    ),
-                                    SizedBox(width: 5,),
-                                    Text(user['userName'].toString(), style: TextStyle(fontSize: 14),)
-                                  ]
-                              )
+                             UserManagement().getUserPostedUser(user['userId'], 'SHORT_NAME')
 
                           ),
                           DataCell(Text(user['bidPrice'].toString())),
-                          DataCell(Text(user['bidTime'].toString())),
+                          DataCell(Text(AuctionTime().getPostedDay(user['bidAt']))),
                         ],
                       ),).toList(),
                 ),
               )
-          )
+          ) : Center(child: Text('No one Bids yet', style: TextStyle(fontSize: 20) ,))
       );
   }
 }

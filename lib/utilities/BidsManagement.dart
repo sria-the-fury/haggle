@@ -5,15 +5,23 @@ class BidsManagement{
   makeBid(bidPrice, user, itemId) async {
     try{
       await FirebaseFirestore.instance.
-      collection('items').
-      doc(itemId).
-      collection('bid-users')
+      collection('items')
+          .doc(itemId)
+          .collection('bid-users')
           .add({
-        'bidPrice': bidPrice,
+        'bidPrice': int.parse(bidPrice),
         'userId': user.uid,
         'itemId': itemId,
         'bidAt': DateTime.now()
       });
+
+      await FirebaseFirestore.instance.
+      collection('items')
+          .doc(itemId)
+          .set({
+        'bidUsers': FieldValue.arrayUnion([user.uid])
+
+      }, SetOptions(merge: true));
     }catch(e){
       FlutterToast().errorToast('@store :', 'BOTTOM', 14.0, e);
     }

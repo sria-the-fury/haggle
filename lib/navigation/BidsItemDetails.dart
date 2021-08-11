@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:haggle/utilities/AuctionDataTable.dart';
+import 'package:haggle/utilities/BidsDataTable.dart';
 import 'package:haggle/utilities/AuctionTime.dart';
 import 'package:haggle/utilities/BottomModal.dart';
 import 'package:haggle/utilities/Carousel.dart';
@@ -16,10 +18,22 @@ class BidsItemDetails extends StatefulWidget {
 
 class _BidsItemDetailsState extends State<BidsItemDetails> {
 
+  var hasBid;
+
   @override
   Widget build(BuildContext context) {
     var images = widget.itemDetails['itemImages'];
     var details = widget.itemDetails;
+
+    User? user = FirebaseAuth.instance.currentUser;
+
+
+    setState(() {
+      hasBid = details.data().containsKey('bidUsers') &&
+          details['bidUsers'].contains(user!.uid) ? true : false;
+    });
+
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Details'),
@@ -70,7 +84,16 @@ class _BidsItemDetailsState extends State<BidsItemDetails> {
                             )
                         ),
                         Container(
-                          child: AuctionDataTable().table(context),
+                          child: StreamBuilder(
+                            stream: FirebaseFirestore.instance.collection('items').doc(details['itemId']).collection('bid-users').snapshots(),
+                            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
+                              if(snapshot.hasData ){
+                                return BidsDataTable().table(snapshot.data!.docs, context);
+                              } else return Center(
+                                child: CircularProgressIndicator(color: Colors.blue[500],),
+                              );
+                            },
+                          ),  //AuctionDataTable().table(context)
                         )
 
                       ],
@@ -80,35 +103,38 @@ class _BidsItemDetailsState extends State<BidsItemDetails> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
 
-          var itemId = details['itemId'];
+      floatingActionButton: Opacity(
+          opacity: 1,//user!.uid == details['userId'] ? 0 :1
+          child: FloatingActionButton(
+            onPressed: () {
 
-          showModalBottomSheet<void>(
-              context: context,
-              isScrollControlled: true,
-              enableDrag: true,
-              useRootNavigator: true,
+              var itemId = details['itemId'];
 
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              backgroundColor: Colors.white,
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              builder: (BuildContext context) {
-                return SingleChildScrollView(
-                  child: Container(
-                    padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                    child: BottomModal(details['minBidPrice'], itemId),
+              showModalBottomSheet<void>(
+                  context: context,
+                  isScrollControlled: true,
+                  enableDrag: true,
+                  useRootNavigator: true,
 
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
                   ),
-                );
-              });
-        },
-        child: Icon(Icons.attach_money),
-        backgroundColor: Colors.blue[500],
-      ),
+                  backgroundColor: Colors.white,
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  builder: (BuildContext context) {
+                    return SingleChildScrollView(
+                      child: Container(
+                        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                        child: BottomModal(details['minBidPrice'], itemId),
+
+                      ),
+                    );
+                  });
+            },
+            child: Icon( hasBid? Icons.edit : Icons.attach_money),
+            backgroundColor: Colors.blue[500],
+          )),
     );
   }
 }

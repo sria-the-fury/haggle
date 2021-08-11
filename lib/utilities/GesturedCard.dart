@@ -32,7 +32,7 @@ class _GesturedCardState extends State<GesturedCard> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    UserManagement().getUserPostedUser(item['userId']),
+                    UserManagement().getUserPostedUser(item['userId'], 'MODERATE_NAME'),
                     Text(AuctionTime().getPostedDay(item['createdAt']))
                   ],
                 )
@@ -82,7 +82,7 @@ class _GesturedCardState extends State<GesturedCard> {
                 children: [
                   Container(
                     padding: EdgeInsets.only(left: 10.0, bottom: 10.0),
-                    child: BidUsers(item['itemId']),
+                    child: Text(widget.item.data().containsKey('bidUsers') && item['bidUsers'].length > 0 ? item['bidUsers'].length.toString() : '0'),
                   ),
                   Container(
                     padding: EdgeInsets.only(right: 10.0, bottom: 10.0),

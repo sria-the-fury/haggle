@@ -21,7 +21,7 @@ class UserManagement {
     }
   }
 
-  getUserPostedUser(userId) {
+  getUserPostedUser(userId, isFullName) {
 
     return new StreamBuilder(
         stream: FirebaseFirestore.instance.collection('users').doc(userId).snapshots(),
@@ -29,15 +29,15 @@ class UserManagement {
           if (snapshot.hasData) {
             var userData = snapshot.data;
             return Row(
-                    children: [
-                      CircleAvatar(
-                        backgroundImage: NetworkImage(userData!['photoURL'],),
-                        radius: 10,
-                      ),
-                      SizedBox(width: 5,),
-                      Text(userData['userName'], style: TextStyle(fontSize: 14),)
-                    ]
-              );
+                children: [
+                  CircleAvatar(
+                    backgroundImage: NetworkImage(userData!['photoURL'],),
+                    radius: 10,
+                  ),
+                  SizedBox(width: 5,),
+                  getName(userData['userName'], isFullName)
+                ]
+            );
 
           }
           else {
@@ -46,4 +46,15 @@ class UserManagement {
         }
     );
   }
+
+  getName(name, naming) {
+    List<String> nameList = name.split(" ");
+
+      if(naming == 'SHORT_NAME'){
+        return Text(nameList[0], style: TextStyle(fontSize: 14));
+      } else if(naming == "MODERATE_NAME"){
+        return Text(nameList[0] + ' '+nameList[1], style: TextStyle(fontSize: 14));
+      } else return Text(name, style: TextStyle(fontSize: 14));
+    }
+
 }

@@ -15,8 +15,7 @@ class _BidUsersState extends State<BidUsers> {
     return StreamBuilder(
         stream: FirebaseFirestore.instance.collection('items').doc(itemId).collection('bid-users').snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
-          if(snapshot.data != null ){
-            print(snapshot.data!.docs);
+          if(snapshot.hasData ){
             return Text((snapshot.data!.docs.length).toString());
           } else return Text('Loading Data');
         }
