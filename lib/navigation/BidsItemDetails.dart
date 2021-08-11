@@ -106,7 +106,7 @@ class _BidsItemDetailsState extends State<BidsItemDetails> {
 
       floatingActionButton: Opacity(
           opacity: 1,//user!.uid == details['userId'] ? 0 :1
-          child: FloatingActionButton(
+          child: FloatingActionButton.extended(
             onPressed: () {
 
               var itemId = details['itemId'];
@@ -132,8 +132,8 @@ class _BidsItemDetailsState extends State<BidsItemDetails> {
                     );
                   });
             },
-            child: Icon( hasBid? Icons.edit : Icons.attach_money),
-            backgroundColor: Colors.blue[500],
+            icon: Icon( hasBid? Icons.edit : Icons.attach_money),
+            backgroundColor: Colors.blue[500], label: Text('MAKE A BID'),
           )),
     );
   }

@@ -31,6 +31,8 @@ dependencies:
   intl:
   timeago:
   lottie:
+  image_picker:
+  video_player:
   flutter:
     sdk: flutter
 

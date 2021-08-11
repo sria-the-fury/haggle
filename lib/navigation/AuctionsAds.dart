@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/rendering.dart';
 import 'package:haggle/imports/modals/AddItemModal.dart';
 import 'package:haggle/utilities/GesturedCard.dart';
+import 'package:haggle/utilities/CustomImagePicker.dart';
 
 
 class AuctionsAds extends StatefulWidget {
@@ -18,7 +19,6 @@ class _AuctionsAdsState extends State<AuctionsAds> {
   Widget build(BuildContext context) {
     User? user = FirebaseAuth.instance.currentUser;
     var userImage = user?.photoURL;
-
 
 
     return new Scaffold(

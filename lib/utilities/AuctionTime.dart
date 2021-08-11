@@ -38,6 +38,12 @@ class AuctionTime{
      return new DateFormat.yMMMd().add_jms().format(date);
    }
 
+   getAuctionPostedTime(time){
+
+
+     return new DateFormat.yMMMd().add_jms().format(time);
+   }
+
    getPostedDay(time){
      DateTime date = DateTime.fromMillisecondsSinceEpoch(time.seconds * 1000, );
      final ago = date.subtract(new Duration());
