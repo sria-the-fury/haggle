@@ -5,6 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/rendering.dart';
 import 'package:haggle/imports/modals/AddItemModal.dart';
 import 'package:haggle/imports/utilities/GesturedCard.dart';
+import 'package:haggle/navigation/ProfilePage.dart';
+import 'package:lottie/lottie.dart';
 
 
 class AuctionsAds extends StatefulWidget {
@@ -25,10 +27,40 @@ class _AuctionsAdsState extends State<AuctionsAds> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text('Haggle BD', textAlign: TextAlign.left),
+            Container(
+              child: Row(
+                children: [
+                  Center(
+                      child:Container(
+                          height: 40,
+                          width: 40,
+                          margin: EdgeInsets.only(right: 10.0),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100),
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(0.3),
+                                    spreadRadius: 1,
+                                    blurRadius: 5,
+                                    offset: Offset(0, 3)
+                                )
+                              ]
+                          ),
+                          child:Lottie.asset('assets/auction_lottie_haggle-bd.json')
+                      )
+                  ) ,
+                  Text('Haggle BD', textAlign: TextAlign.left),
+                ],
+              )
+            ),
             GestureDetector(
               onTap: () {
-                Navigator.of(context).pushNamed('/profilePage');
+                Navigator.of(context).push(new MaterialPageRoute<Null>(
+                    builder: (BuildContext context) {
+                  return new ProfilePage();
+                }));
+                //Navigator.of(context).pushNamed('/profilePage');
               },
               child:  CircleAvatar(
                 backgroundImage: NetworkImage(userImage.toString()),

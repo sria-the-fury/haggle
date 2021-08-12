@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.gavel),
-            label: 'Haggle',
+            label: 'Auctions',
           ),
 
           BottomNavigationBarItem(

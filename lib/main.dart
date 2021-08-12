@@ -24,7 +24,6 @@ class MyApp extends StatelessWidget {
       routes: user?.uid != null ? (<String, WidgetBuilder>{
         '/landingPage': (BuildContext context) => new MyApp(),
         '/homePage': (BuildContext context) => new HomePage(),
-        '/profilePage': (BuildContext context) => new ProfilePage(),
       }) :  (<String, WidgetBuilder>{
         '/landingPage': (BuildContext context) => new MyApp(),
         '/homePage': (BuildContext context) => new HomePage(),
