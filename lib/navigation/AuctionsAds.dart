@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/rendering.dart';
 import 'package:haggle/imports/modals/AddItemModal.dart';
+import 'package:haggle/utilities/FilesUpload.dart';
 import 'package:haggle/utilities/GesturedCard.dart';
 import 'package:haggle/utilities/CustomImagePicker.dart';
 
@@ -75,7 +76,7 @@ class _AuctionsAdsState extends State<AuctionsAds> {
           // Add your onPressed code here!
           Navigator.of(context).push(new MaterialPageRoute<Null>(
               builder: (BuildContext context) {
-                return new AddItemModal();
+                return new FilesUpload();
               },
               fullscreenDialog: true
           ));

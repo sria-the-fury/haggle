@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
-class ShowCupertinoDatePicker{
+import 'package:flutter/material.dart';
+class CupertinoItems{
   static void showSheet(
       BuildContext context, {
         required Widget child,
@@ -11,10 +12,16 @@ class ShowCupertinoDatePicker{
           child,
         ],
         cancelButton: CupertinoActionSheetAction(
-          child: Text('DOne'),
+          child: Text('DONE'),
           onPressed: onClicked,
         ),
       ),
 
   );
+
+  static void showSnackBar(BuildContext context, String message) {
+    final snackBar = SnackBar(content: Text(message));
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
 }

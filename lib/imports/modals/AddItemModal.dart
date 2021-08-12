@@ -1,8 +1,10 @@
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:haggle/utilities/AuctionTime.dart';
-import 'package:haggle/utilities/ShowCupertinoDatePicker.dart';
+import 'package:haggle/utilities/BidsManagement.dart';
+import 'package:haggle/utilities/CupertinoItems.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'dart:io';
@@ -23,6 +25,11 @@ class _AddItemModalState extends State<AddItemModal> {
   set _imageFile(XFile? value) {
     _imageFileList = value == null ? null : [value];
   }
+  bool isLessTime = false;
+
+  String _itemName='';
+  String _itemDesc='';
+  String _minBidPrice='';
 
   DateTime dateTime = DateTime.now();
 
@@ -128,14 +135,8 @@ class _AddItemModalState extends State<AddItemModal> {
   }
 
 
-
-
-
-
-
-
-
   DateTime _date = DateTime.now();
+
 
   void _selectDate() async {
     final DateTime? newDate = await showDatePicker(
@@ -157,7 +158,7 @@ class _AddItemModalState extends State<AddItemModal> {
       height: 270,
       child: CupertinoDatePicker(
         minimumDate: DateTime.now(),
-        mode: CupertinoDatePickerMode.date,
+        mode: CupertinoDatePickerMode.dateAndTime,
         onDateTimeChanged: (dateTime) => {
           setState(() => this.dateTime = dateTime)
         },
@@ -166,8 +167,20 @@ class _AddItemModalState extends State<AddItemModal> {
   );
 
 
+
   @override
   Widget build(BuildContext context) {
+
+    User? currentUser = FirebaseAuth.instance.currentUser;
+
+    print('Min Bid =>$_minBidPrice');
+    print('_itemDesc =>$_itemDesc');
+    print('_itemName =>$_itemName');
+
+    disableSubmit(){
+      return _itemName == '' || _itemDesc == '' || _minBidPrice =='';
+    }
+
     return new Scaffold(
       appBar: new AppBar(
         title: const Text('ADD ITEM'),
@@ -263,13 +276,15 @@ class _AddItemModalState extends State<AddItemModal> {
                 SizedBox(height: 10.0),
 
                 TextFormField(
+                  onChanged: (itemName) => {
+                    setState(() => {
+                      _itemName = itemName
+                    })},
                   decoration: InputDecoration(
                     labelText: 'Product Name',
                     // errorText: 'Error message',
                     border: OutlineInputBorder(),
-                    suffixIcon: Icon(
-                      Icons.error,
-                    ),
+
                     prefixIcon: Icon(Icons.category),
                   ),
                 ),
@@ -279,56 +294,65 @@ class _AddItemModalState extends State<AddItemModal> {
                   keyboardType: TextInputType.multiline,
                   minLines: 1,//Normal textInputField will be displayed
                   maxLines: 4,
+                  onChanged: (descText) => {
+                    setState(() => {
+                      _itemDesc = descText
+                    })},
                   decoration: InputDecoration(
                     labelText: 'Product Description',
                     // errorText: 'Error message',
                     border: OutlineInputBorder(),
-                    suffixIcon: Icon(
-                      Icons.error,
-                    ),
+
                     prefixIcon: Icon(Icons.description),
                   ),
                 ),
                 SizedBox(height: 25,),
 
                 TextFormField(
+                  keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     labelText: 'Minimum Bid Price',
                     // errorText: 'Error message',
                     border: OutlineInputBorder(),
-                    suffixIcon: Icon(
-                      Icons.error,
-                    ),
+
                     prefixIcon: Icon(Icons.attach_money),
                   ),
+                  onChanged: (minBidPrice) => {
+                    setState(() => {
+                      _minBidPrice = minBidPrice
+                    })},
                 ),
                 SizedBox(height: 20,),
 
                 ElevatedButton.icon(
                   icon: Icon(Icons.event, color: Colors.white, size: 35.0),
                   onPressed: () =>
-                      ShowCupertinoDatePicker.
+                      CupertinoItems.
                       showSheet(context, child: buildDatePicker(),
                           onClicked: () {
-                            Navigator.pop(context);}),
+                            Navigator.pop(context);
+                            if(dateTime.minute < DateTime.now().minute + 9 && dateTime.hour ==  DateTime.now().hour){
+                              setState(() {
+                                isLessTime = true;
+                              });
+                            } else  setState(() {
+                              isLessTime = false;
+                            });
+                          }),
+                  style: ElevatedButton.styleFrom(
+                      minimumSize: Size(88, 45)
+                  ),
 
                   label: Text('SELECT AUCTION END DATE', style: TextStyle(fontSize: 20),),
                 ),
 
 
-                // ElevatedButton.icon(
-                //   icon: Icon(Icons.event, color: Colors.white, size: 35.0),
-                //   onPressed: _selectDate,
-                //
-                //   label: Text('SELECT AUCTION END DATE', style: TextStyle(fontSize: 20),),
-                // ),
-                Text(
-                  'Selected date: '+ dateTime.toString(),
+                if(isLessTime) Text(
+                  'TIME SHOULD BE 10 MIN OR MORE FROM NOW', style: TextStyle(fontSize: 12, color: Colors.red[500]),
                 ),
                 SizedBox(height: 25),
 
-
-                if (_date.day > DateTime.now().day) Container(
+                if (dateTime.minute > ((DateTime.now().minute)+10) || dateTime.hour > DateTime.now().hour) Container(
                     width: MediaQuery.of(context).size.width,
                     padding: EdgeInsets.symmetric(horizontal:5.0, vertical: 5.0),
 
@@ -348,10 +372,47 @@ class _AddItemModalState extends State<AddItemModal> {
                                     child: Text('AUCTION WILL BE END', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color:  Colors.white)),
                                   ),
                                   Container(
-                                    alignment: Alignment.topRight,
-                                    padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
-                                    margin: EdgeInsets.only(left: 100.0),
-                                    child: Text(AuctionTime().getAuctionPostedTime(_date), style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold, color:  Colors.white)),
+                                      alignment: Alignment.topRight,
+                                      padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
+                                      child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children:[
+
+                                            Container(
+                                              child: ElevatedButton.icon(
+                                                icon: Icon(Icons.add, color: disableSubmit() ? Colors.grey : Colors.white , size: 20.0),
+                                                onPressed: disableSubmit() ? null : () async
+                                                {
+                                                  try{
+                                                    BidsManagement().addItem(_itemName, _itemDesc, _minBidPrice, dateTime, currentUser!.uid);
+                                                    CupertinoItems.showSnackBar(context, 'ITEM ADDED SUCCESSFULLY');
+                                                  } catch(e) {
+                                                    CupertinoItems.showSnackBar(context, 'ITEM NOT ADDED');
+                                                  }
+                                                  finally{
+                                                    Navigator.pop(context);
+                                                  }
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                  onPrimary: Colors. white,
+                                                  primary: Colors.green[500],
+                                                  minimumSize: Size(88, 36),
+                                                  padding: EdgeInsets.symmetric(horizontal: 16),
+                                                  shape: const RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.all(Radius.circular(50)),
+                                                  ),
+                                                ),
+
+                                                label: Text('ADD ITEM', style: TextStyle(fontSize: 15),),
+                                              ),
+                                            ),
+                                            Container(
+                                              width: 200,
+                                              child: Text(AuctionTime().getAuctionPostedTime(dateTime), style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold, color:  Colors.white)),
+                                            ),
+
+                                          ]
+                                      )
                                   )
                                 ]
                             )

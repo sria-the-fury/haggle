@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:haggle/utilities/CupertinoItems.dart';
 import 'package:haggle/utilities/FlutterToast.dart';
 
 class BidsManagement{
@@ -27,6 +29,28 @@ class BidsManagement{
     }
     finally{
       FlutterToast().successToast('Bid has been made', 'BOTTOM', 14.0, null);
+    }
+
+  }
+
+  addItem(itemName, itemDesc, bidPrice, bidEndTime, userId) async{
+    try{
+      await FirebaseFirestore.instance.
+      collection('bid-items')
+          .doc()
+          .set({
+        'itemName': itemName,
+        'itemDesc': itemDesc,
+        'lastBidTime': bidEndTime,
+        'minBidPrice': int.parse(bidPrice),
+        'userId': userId,
+        'bidAt': DateTime.now()
+      });
+    } catch(e) {
+      print(e.toString());
+    }
+    finally{
+
     }
 
   }
