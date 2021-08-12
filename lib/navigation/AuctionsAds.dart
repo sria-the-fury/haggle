@@ -30,27 +30,11 @@ class _AuctionsAdsState extends State<AuctionsAds> {
               onTap: () {
                 Navigator.of(context).pushNamed('/profilePage');
               },
-              child: userImage != null ? Container(
-                alignment: Alignment.center,
-                height: 40,
-                width: 40,
-                decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.black.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 7,
-                          offset: Offset(0, 3)
-                      )
-                    ],
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image:NetworkImage(userImage),
-                      fit: BoxFit.fill,
-                    )
-                ),
-              ) : Center(child: CircularProgressIndicator(color: Colors.white)),
-            )  ,
+              child:  CircleAvatar(
+                backgroundImage: NetworkImage(userImage.toString()),
+                radius: 25,
+              ),
+            )
 
           ],
         ),
