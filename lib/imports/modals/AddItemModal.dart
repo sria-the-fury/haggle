@@ -1,18 +1,19 @@
 
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:haggle/utilities/AuctionTime.dart';
-import 'package:haggle/utilities/BidsManagement.dart';
-import 'package:haggle/utilities/CupertinoItems.dart';
-import 'package:image_picker/image_picker.dart';
-
 import 'dart:io';
 
-import 'package:carousel_slider/carousel_options.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:haggle/imports/utilities/AuctionTime.dart';
+import 'package:haggle/imports/firebase/BidsManagement.dart';
+import 'package:haggle/imports/utilities/CupertinoItems.dart';
+
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
+import 'package:haggle/imports/firebase/FirebaseStorageApi.dart';
+import 'package:uuid/uuid.dart';
 
 class AddItemModal extends StatefulWidget {
   @override
@@ -21,10 +22,6 @@ class AddItemModal extends StatefulWidget {
 
 class _AddItemModalState extends State<AddItemModal> {
 
-  List<XFile>? _imageFileList;
-  set _imageFile(XFile? value) {
-    _imageFileList = value == null ? null : [value];
-  }
   bool isLessTime = false;
 
   String _itemName='';
@@ -33,125 +30,79 @@ class _AddItemModalState extends State<AddItemModal> {
 
   DateTime dateTime = DateTime.now();
 
-  dynamic _pickImageError;
-  String? _retrieveDataError;
 
-  final ImagePicker _picker = ImagePicker();
-
-  void _onImagesButtonPressed(ImageSource source, {
-    BuildContext? context, bool isMultiImage = false}) async {
-    if (isMultiImage) {
-      try {
-        final pickedFileList = await _picker.pickMultiImage(
-            maxHeight: 800,
-            maxWidth: 800,
-            imageQuality: 100
-        );
-        setState(() {
-          _imageFileList = pickedFileList;
-        });
-      } catch (e) {
-        setState(() {
-          _pickImageError = e;
-        });
-      }
-    }
-  }
+  UploadTask? task;
+  List<File>? files;
+  List<Object> imagesAsUrl =[];
+  User? currentUser = FirebaseAuth.instance.currentUser;
 
 
-  Widget _previewImages() {
-    final Text? retrieveError = _getRetrieveErrorWidget();
-    if (retrieveError != null) {
-      return retrieveError;
-    }
-    if (_imageFileList != null) {
-      return CarouselSlider(
-
-        options: CarouselOptions(height: 220.0, enableInfiniteScroll: true),
-        items: _imageFileList!.map<Widget>((image) {
-          print(image.path);
-          return new Builder(
-            builder: (BuildContext context) {
-              return Container(
-                width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.symmetric(horizontal: 5.0),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    image: DecorationImage(
-                      image: FileImage(File(image.path)),
-                      fit: BoxFit.cover,
-                    )
-                ),
-              );
-            },
-          );
-        }).toList(),
-      );
-    } else if (_pickImageError != null) {
-      return Text(
-        'Pick image error: $_pickImageError',
-        textAlign: TextAlign.center,
-      );
-    } else {
-      return Container(
-        height: 220,
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10.0),
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.black.withOpacity(0.3),
-                  spreadRadius: 1,
-                  blurRadius: 5,
-                  offset: Offset(0, 3)
-              )
-            ]
-        ),
-        child: Center(
-            child : Text('ADD IMAGES AT LEAST 3')
-        ),
-      );
-    }
-  }
-
-  Widget _handlePreview() {
-
-    return _previewImages();
-  }
-
-  Future<void> retrieveLostData() async {
-    final LostDataResponse response = await _picker.retrieveLostData();
-    if (response.isEmpty) {
-      return;
-    }
-    if (response.file != null) {
-      setState(() {
-        _imageFile = response.file;
-      });
-    } else {
-      _retrieveDataError = response.exception!.code;
-    }
-  }
-
-
-  DateTime _date = DateTime.now();
-
-
-  void _selectDate() async {
-    final DateTime? newDate = await showDatePicker(
-      context: context,
-      initialDate: _date,
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2030, 7),
-      helpText: 'Select a date',
+  Future _selectFile () async{
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      allowMultiple: true,
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'png', 'jpeg'],
     );
-    if (newDate != null) {
-      setState(() {
-        _date = newDate;
-      });
-    }
+    if(result != null ){
+      List<File> filesPath = result.paths.map((path) => File(path!)).toList();
+      setState(() => files =  filesPath);
+    } else return;
+
   }
+
+  Future _uploadFile() async{
+    if(files != null){
+
+      final itemId = Uuid().v4();
+
+
+      files!.map((file) async {
+        final imageId = Uuid().v4();
+        final fileDestination = 'files/$itemId/$imageId';
+        task = FirebaseStorageApi.uploadFile(fileDestination, file);
+        setState(() {
+
+        });
+        if(task != null) {
+          final snapshot = await task!.whenComplete(() => {});
+          final urlDownload = await snapshot.ref.getDownloadURL();
+          imagesAsUrl.add({
+            'imageId': imageId,
+            'imageUrl': urlDownload
+          });
+
+          if(files!.length == imagesAsUrl.length){
+            BidsManagement().addItem(_itemName, _itemDesc, _minBidPrice, dateTime, currentUser!.uid, imagesAsUrl, itemId);
+            Navigator.pop(context);
+
+          }
+
+        } else return;
+
+      }).toList();
+
+    } else return;
+
+  }
+
+  //for further use
+
+  // Widget buildUploadStatus(UploadTask task){
+  //   return StreamBuilder<TaskSnapshot>(
+  //       stream: task.snapshotEvents,
+  //       builder: (context, snapshot){
+  //         if(snapshot.hasData){
+  //           final snap = snapshot.data!;
+  //           final progress =  snap.bytesTransferred/ snap.totalBytes;
+  //           final percentage = (progress * 100).toStringAsFixed(0);
+  //           return Text('$percentage%');
+  //
+  //         } else return Container();
+  //
+  //       });
+  //
+  // }
+
 
 
   Widget buildDatePicker() => SizedBox(
@@ -171,14 +122,14 @@ class _AddItemModalState extends State<AddItemModal> {
   @override
   Widget build(BuildContext context) {
 
-    User? currentUser = FirebaseAuth.instance.currentUser;
+    _checkIfFileMore(){
+      if(files != null) return files!.length <= 2;
+      else return true;
 
-    print('Min Bid =>$_minBidPrice');
-    print('_itemDesc =>$_itemDesc');
-    print('_itemName =>$_itemName');
+    }
 
     disableSubmit(){
-      return _itemName == '' || _itemDesc == '' || _minBidPrice =='';
+      return _itemName == '' || _itemDesc == '' || _minBidPrice =='' || _checkIfFileMore();
     }
 
     return new Scaffold(
@@ -192,8 +143,8 @@ class _AddItemModalState extends State<AddItemModal> {
                 tooltip: 'ADD IMAGES',
                 enableFeedback: true,
                 onPressed: () {
-                  _onImagesButtonPressed(
-                    ImageSource.gallery, context: context, isMultiImage: true,);
+                  _selectFile();
+
                 },
               )
           )
@@ -207,66 +158,48 @@ class _AddItemModalState extends State<AddItemModal> {
               children: [
 
                 Center(
-                    child: !kIsWeb && defaultTargetPlatform == TargetPlatform.android
-                        ? FutureBuilder<void>(
-                      future: retrieveLostData(),
-                      builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-                        switch (snapshot.connectionState) {
-                          case ConnectionState.none:
-                          case ConnectionState.waiting:
+                    child: files != null && files!.length > 2?
+                    CarouselSlider(
+                      options: CarouselOptions(height: 220.0, enableInfiniteScroll: true),
+                      items: files!.map<Widget>((image) {
+                        print(image.path);
+                        return new Builder(
+                          builder: (BuildContext context) {
                             return Container(
-                              height: 220,
                               width: MediaQuery.of(context).size.width,
+                              margin: EdgeInsets.symmetric(horizontal: 5.0),
                               decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.black.withOpacity(0.3),
-                                        spreadRadius: 1,
-                                        blurRadius: 5,
-                                        offset: Offset(0, 3)
-                                    )
-                                  ]
-                              ),
-                              child: Center(
-                                  child : Text('ADD IMAGES AT LEAST 3')
+                                  borderRadius: BorderRadius.circular(5),
+                                  image: DecorationImage(
+                                    image: FileImage(File(image.path)),
+                                    fit: BoxFit.cover,
+                                  )
                               ),
                             );
-                          case ConnectionState.done:
-                            return _handlePreview();
-                          default:
-                            if (snapshot.hasError) {
-                              return Text(
-                                'Pick image/video error: ${snapshot.error}}',
-                                textAlign: TextAlign.center,
-                              );
-                            } else {
-                              return Container(
-                                height: 220,
-                                width: MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.black.withOpacity(0.3),
-                                          spreadRadius: 1,
-                                          blurRadius: 5,
-                                          offset: Offset(0, 3)
-                                      )
-                                    ]
-                                ),
-                                child: Center(
-                                    child : Text('ADD IMAGES AT LEAST 3')
-                                ),
-                              );
-                            }
-                        }
-                      },
+                          },
+                        );
+                      }).toList(),
+                    ) : Container(
+                      height: 220,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10.0),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black.withOpacity(0.3),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: Offset(0, 3)
+                            )
+                          ]
+                      ),
+                      child: Center(
+                          child : Text('ADD AT LEAST 3 IMAGES', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
+                      ),
                     )
 
-                        : _handlePreview()),
+                ),
                 SizedBox(height: 25.0),
 
                 Container(
@@ -322,7 +255,7 @@ class _AddItemModalState extends State<AddItemModal> {
                       _minBidPrice = minBidPrice
                     })},
                 ),
-                SizedBox(height: 20,),
+                SizedBox(height: 60,),
 
                 ElevatedButton.icon(
                   icon: Icon(Icons.event, color: Colors.white, size: 35.0),
@@ -384,14 +317,13 @@ class _AddItemModalState extends State<AddItemModal> {
                                                 onPressed: disableSubmit() ? null : () async
                                                 {
                                                   try{
-                                                    BidsManagement().addItem(_itemName, _itemDesc, _minBidPrice, dateTime, currentUser!.uid);
-                                                    CupertinoItems.showSnackBar(context, 'ITEM ADDED SUCCESSFULLY');
+
+                                                    await _uploadFile();
+                                                    CupertinoItems.showSuccessSnackBar(context, 'ITEM ADDED SUCCESSFULLY');
                                                   } catch(e) {
-                                                    CupertinoItems.showSnackBar(context, 'ITEM NOT ADDED');
+                                                    CupertinoItems.showErrorSnackBar(context, 'ITEM NOT ADDED ${e.toString()}');
                                                   }
-                                                  finally{
-                                                    Navigator.pop(context);
-                                                  }
+
                                                 },
                                                 style: ElevatedButton.styleFrom(
                                                   onPrimary: Colors. white,
@@ -421,19 +353,10 @@ class _AddItemModalState extends State<AddItemModal> {
                     )
                 ) ,
 
-
               ],
             )
         ),
       ),
     );
-  }
-  Text? _getRetrieveErrorWidget() {
-    if (_retrieveDataError != null) {
-      final Text result = Text(_retrieveDataError!);
-      _retrieveDataError = null;
-      return result;
-    }
-    return null;
   }
 }

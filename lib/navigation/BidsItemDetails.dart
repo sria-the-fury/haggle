@@ -3,10 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:haggle/utilities/BidsDataTable.dart';
-import 'package:haggle/utilities/AuctionTime.dart';
-import 'package:haggle/utilities/BottomModal.dart';
-import 'package:haggle/utilities/Carousel.dart';
+import 'package:haggle/imports/utilities/BidsDataTable.dart';
+import 'package:haggle/imports/utilities/AuctionTime.dart';
+import 'package:haggle/imports/modals/BottomModal.dart';
+import 'package:haggle/imports/utilities/Carousel.dart';
 
 
 class BidsItemDetails extends StatefulWidget {

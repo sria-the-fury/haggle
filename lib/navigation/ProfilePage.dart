@@ -1,9 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/rendering.dart';
-import 'package:haggle/utilities/FlutterToast.dart';
-import 'LoginPage.dart';
+import 'package:haggle/imports/utilities/FlutterToast.dart';
+import '../imports/LoginPage.dart';
 
 
 

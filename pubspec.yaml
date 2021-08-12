@@ -39,7 +39,6 @@ dependencies:
   intl:
   timeago:
   lottie:
-  image_picker:
   file_picker:
   uuid:
 

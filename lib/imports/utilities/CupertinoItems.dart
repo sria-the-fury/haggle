@@ -19,8 +19,20 @@ class CupertinoItems{
 
   );
 
-  static void showSnackBar(BuildContext context, String message) {
-    final snackBar = SnackBar(content: Text(message));
+  static void showSuccessSnackBar(BuildContext context, String message) {
+    final snackBar = SnackBar(
+        content: Text(message, style: TextStyle(color: Colors.white), textAlign: TextAlign.center,),
+      backgroundColor: Colors.green[500],
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  static void showErrorSnackBar(BuildContext context, String message) {
+    final snackBar = SnackBar(
+        content: Text(message, style: TextStyle(color: Colors.white), textAlign: TextAlign.center,),
+      backgroundColor: Colors.green[500],
+    );
 
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }

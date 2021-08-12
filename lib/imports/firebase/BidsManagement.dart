@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:haggle/utilities/CupertinoItems.dart';
-import 'package:haggle/utilities/FlutterToast.dart';
+import 'package:haggle/imports/utilities/FlutterToast.dart';
 
 class BidsManagement{
   makeBid(bidPrice, user, itemId) async {
@@ -33,19 +31,22 @@ class BidsManagement{
 
   }
 
-  addItem(itemName, itemDesc, bidPrice, bidEndTime, userId) async{
+  addItem(itemName, itemDesc, bidPrice, bidEndTime, userId, images, itemId) async{
     try{
       await FirebaseFirestore.instance.
-      collection('bid-items')
-          .doc()
+      collection('items')
+          .doc(itemId)
           .set({
+        'createdAt': DateTime.now(),
         'itemName': itemName,
+        'itemId': itemId,
+        'itemImages': images,
         'itemDesc': itemDesc,
         'lastBidTime': bidEndTime,
         'minBidPrice': int.parse(bidPrice),
         'userId': userId,
         'bidAt': DateTime.now()
-      });
+      }, SetOptions(merge: true));
     } catch(e) {
       print(e.toString());
     }

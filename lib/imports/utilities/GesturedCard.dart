@@ -1,10 +1,9 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:haggle/imports/UserManagement.dart';
+import 'package:haggle/imports/firebase/UserManagement.dart';
 import 'package:haggle/navigation/BidsItemDetails.dart';
-import 'package:haggle/utilities/BidUsers.dart';
-import 'package:haggle/utilities/Carousel.dart';
+import 'package:haggle/imports/utilities/Carousel.dart';
 import 'AuctionTime.dart';
 class GesturedCard extends StatefulWidget {
   final item;

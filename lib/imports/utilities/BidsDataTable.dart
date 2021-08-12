@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:haggle/imports/UserManagement.dart';
-import 'package:haggle/utilities/AuctionTime.dart';
+import 'package:haggle/imports/firebase/UserManagement.dart';
+import 'package:haggle/imports/utilities/AuctionTime.dart';
 
 class BidsDataTable {
 

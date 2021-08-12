@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:haggle/utilities/BidsManagement.dart';
+import 'package:haggle/imports/firebase/BidsManagement.dart';
 
 class BottomModal extends StatefulWidget {
   final int lowestBidPrice;

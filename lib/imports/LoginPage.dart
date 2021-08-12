@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:haggle/imports/UserManagement.dart';
-import 'package:haggle/utilities/FlutterToast.dart';
+import 'package:haggle/imports/firebase/UserManagement.dart';
+import 'package:haggle/imports/utilities/FlutterToast.dart';
 
 class LoginPage extends StatefulWidget{
   @override
@@ -24,22 +24,6 @@ class _LoginPageState extends State<LoginPage>{
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  // ElevatedButton(
-                  //     child: Text('Login'),
-                  //     style: style,
-                  //     onPressed: (){
-                  //       FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password)
-                  //           .then((user){
-                  //         Navigator.of(context).pushReplacementNamed('/homePage');
-                  //
-                  //       })
-                  //           .catchError((e) {
-                  //         print('Sign In : '+e);
-                  //
-                  //       });
-                  //       print('Hello Login');
-                  //     }
-                  // ),
                   SizedBox(height: 15.0),
                   ElevatedButton(
                       child: Text('SignIn With Google'),

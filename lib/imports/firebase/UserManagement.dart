@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:haggle/utilities/FlutterToast.dart';
+import 'package:haggle/imports/utilities/FlutterToast.dart';
 
 class UserManagement {
   storeNewUser (user) async{

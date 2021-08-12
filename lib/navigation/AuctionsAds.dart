@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/rendering.dart';
 import 'package:haggle/imports/modals/AddItemModal.dart';
-import 'package:haggle/utilities/FilesUpload.dart';
-import 'package:haggle/utilities/GesturedCard.dart';
-import 'package:haggle/utilities/CustomImagePicker.dart';
+import 'package:haggle/imports/utilities/GesturedCard.dart';
 
 
 class AuctionsAds extends StatefulWidget {
@@ -59,7 +57,7 @@ class _AuctionsAdsState extends State<AuctionsAds> {
       ),
       body: StreamBuilder <QuerySnapshot> (
           stream: FirebaseFirestore.instance
-              .collection('items').snapshots(),
+              .collection('items').orderBy('createdAt',descending: true).snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
 
             return snapshot.data != null ? ListView(
@@ -76,7 +74,7 @@ class _AuctionsAdsState extends State<AuctionsAds> {
           // Add your onPressed code here!
           Navigator.of(context).push(new MaterialPageRoute<Null>(
               builder: (BuildContext context) {
-                return new FilesUpload();
+                return new AddItemModal();
               },
               fullscreenDialog: true
           ));
