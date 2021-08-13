@@ -1,5 +1,6 @@
 
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:haggle/imports/firebase/UserManagement.dart';
 import 'package:haggle/navigation/BidsItemDetails.dart';
@@ -17,6 +18,7 @@ class _GesturedCardState extends State<GesturedCard> {
   @override
   Widget build(BuildContext context) {
     var item = widget.item;
+    User? currentUser = FirebaseAuth.instance.currentUser;
 
 
     return new ListView.builder(
@@ -88,11 +90,24 @@ class _GesturedCardState extends State<GesturedCard> {
                       children: [
                         Container(
                           padding: EdgeInsets.only(left: 10.0, bottom: 10.0),
-                          child: Text(itemData.containsKey('bidUsers') && itemData['bidUsers'].length > 0 ? itemData['bidUsers'].length.toString() : '0'),
+                          child: Row(
+                            children: [
+                              Text(itemData.containsKey('bidUsers') && itemData['bidUsers'].length > 0 ? itemData['bidUsers'].length.toString() : '0'),
+                              Icon(
+                                Icons.people,
+                                size: 15,
+                                color: Colors.black.withOpacity(0.5),
+                              )
+                            ],
+                          )
                         ),
                         Container(
                           padding: EdgeInsets.only(right: 10.0, bottom: 10.0),
-                          child: Text('You have bid it', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),),
+                          child: Icon(
+                            Icons.monetization_on,
+                            color: itemData.containsKey('bidUsers') && itemData['bidUsers'].length > 0 && itemData['bidUsers'].contains(currentUser!.uid)
+                                ? Colors.orange : Colors.grey.withOpacity(0.5),
+                          )
                         ),
                       ],
                     ),

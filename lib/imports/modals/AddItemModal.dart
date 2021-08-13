@@ -136,20 +136,23 @@ class _AddItemModalState extends State<AddItemModal> {
       appBar: new AppBar(
         title: const Text('ADD ITEM'),
         actions: <Widget>[
-
-          RawMaterialButton(
-            onPressed: () async { await _selectFile();},
-            elevation: 2.0,
-            fillColor: Colors.white,
-            child: Icon(
-              Icons.add_photo_alternate,
-              size: 30.0, color: Colors.black,
-            ),
-            padding: EdgeInsets.all(5.0),
-            shape: CircleBorder(),
+          Center(
+              child: Container(
+                  margin: EdgeInsets.only(right: 15.0),
+                  child: Ink(
+                      decoration: const ShapeDecoration(
+                        color: Colors.white,
+                        shape: CircleBorder(),
+                      ),
+                      child: IconButton(
+                        enableFeedback: true,
+                        icon: const Icon(Icons.camera_alt),
+                        color: Colors.blue[500],
+                        onPressed: () async { await _selectFile();},
+                      )
+                  )
+              )
           )
-
-          ,
         ],
       ),
       body: SingleChildScrollView(
