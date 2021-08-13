@@ -43,6 +43,7 @@ class BidsManagement{
         'itemImages': images,
         'itemDesc': itemDesc,
         'lastBidTime': bidEndTime,
+        'bidUsers':[],
         'minBidPrice': int.parse(bidPrice),
         'userId': userId,
         'bidAt': DateTime.now()

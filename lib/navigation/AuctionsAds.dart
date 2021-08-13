@@ -73,16 +73,10 @@ class _AuctionsAdsState extends State<AuctionsAds> {
       ),
       body: StreamBuilder <QuerySnapshot> (
           stream: FirebaseFirestore.instance
-              .collection('items').orderBy('createdAt',descending: true).snapshots(),
+              .collection('items').orderBy('createdAt',descending: true).snapshots(includeMetadataChanges: true),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
 
-            return snapshot.data != null ? ListView(
-              scrollDirection: Axis.vertical,
-              children: snapshot.data!.docs.map<Widget>((item){
-
-                return GesturedCard(item);
-              }).toList(),
-            ) : Center( child: CircularProgressIndicator(color: Colors.blue[500],));
+            return snapshot.data != null ? GesturedCard(snapshot.data!.docs) : Center( child: CircularProgressIndicator(color: Colors.blue[500],));
           }
       ),
       floatingActionButton: FloatingActionButton(

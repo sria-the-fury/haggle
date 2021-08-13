@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 
 class Carousel {
 
-  imageCarousel(images) {
+  imageCarousel(images, imageHeight) {
 
     return CarouselSlider(
 
-      options: CarouselOptions(height: 180.0, enableInfiniteScroll: true),
+      options: CarouselOptions(height: imageHeight, enableInfiniteScroll: true),
       items: images.map<Widget>((image) {
 
         return new Builder(
