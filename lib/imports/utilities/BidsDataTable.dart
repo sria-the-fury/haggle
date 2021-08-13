@@ -88,7 +88,7 @@ class BidsDataTable {
                                         return SingleChildScrollView(
                                           child: Container(
                                             padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                                            child: BottomModal(bidPrice, itemId),
+                                            child: BottomModal(bidPrice, itemId, user['userId'], user['bidPrice'], 'UPDATE'),
 
                                           ),
                                         );

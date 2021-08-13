@@ -114,7 +114,7 @@ class _BidsItemDetailsState extends State<BidsItemDetails> {
                                             return SingleChildScrollView(
                                               child: Container(
                                                 padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                                                child: BottomModal(item['minBidPrice'], item['itemId']),
+                                                child: BottomModal(item['minBidPrice'], item['itemId'], '', 0, 'EDIT'),
 
                                               ),
                                             );

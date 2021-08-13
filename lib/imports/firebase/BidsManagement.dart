@@ -31,6 +31,26 @@ class BidsManagement{
 
   }
 
+  updateBid(editedBidPrice, userId, itemId) async{
+    try{
+      await FirebaseFirestore.instance.
+      collection('items')
+          .doc(itemId)
+          .collection('bid-users').doc(userId)
+          .update({
+        'bidPrice': int.parse(editedBidPrice),
+        'bidAt': DateTime.now()
+      });
+
+    }catch(e){
+      FlutterToast().errorToast('@store :', 'BOTTOM', 14.0, e);
+    }
+    finally{
+      FlutterToast().successToast('Bid has been updated', 'BOTTOM', 14.0, null);
+    }
+
+  }
+
   addItem(itemName, itemDesc, bidPrice, bidEndTime, userId, images, itemId) async{
     try{
       await FirebaseFirestore.instance.

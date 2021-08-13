@@ -6,8 +6,11 @@ import 'package:haggle/imports/firebase/BidsManagement.dart';
 class BottomModal extends StatefulWidget {
   final int lowestBidPrice;
   final String itemId;
+  final String userId;
+  final int userBidPrice;
+  final String modalType;
 
-  const BottomModal(this.lowestBidPrice, this.itemId);
+  const BottomModal(this.lowestBidPrice, this.itemId, this.userId, this.userBidPrice, this.modalType);
 
   @override
   _BottomModalState createState() => _BottomModalState();
@@ -19,12 +22,16 @@ class _BottomModalState extends State<BottomModal> {
   @override
   Widget build(BuildContext context) {
 
-    var lowestBidPrice = widget.lowestBidPrice;
+    var lowestBidPrice = widget.lowestBidPrice.toString();
     var itemId = widget.itemId;
+    var userId = widget.userId;
+    var userBidPrice = widget.userBidPrice.toString();
+    var modalType = widget.modalType;
 
-    print('lowestBidPrice $lowestBidPrice');
-    print('itemId $itemId');
-    print('price =>  ${int.parse(price)}');
+    print('userId =>  $userId');
+    print('modalType =>  $modalType');
+    print('userBidPrice =>  ${userBidPrice.toString()}');
+
 
     User? user = FirebaseAuth.instance.currentUser;
     return new Container(
@@ -34,7 +41,7 @@ class _BottomModalState extends State<BottomModal> {
         borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
         color: Colors.white,
       ),
-      child: Column(
+      child: modalType == 'EDIT' ? Column(
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -48,7 +55,7 @@ class _BottomModalState extends State<BottomModal> {
               ),
             ),
             Container(
-              child: Text('The Value is : $price'),
+              child: Text('Min bid price : \$$lowestBidPrice'),
             ),
 
             Container(
@@ -74,20 +81,72 @@ class _BottomModalState extends State<BottomModal> {
                 suffixIcon: IconButton(
                   disabledColor: Colors.grey,
                   icon: Icon(Icons.monetization_on, size: 35,),
-                  onPressed: lowestBidPrice <= int.parse(price) ? () {
+                  onPressed: int.parse(lowestBidPrice) <= int.parse(price) ? () {
                     BidsManagement().makeBid(price, user, itemId);
                     Navigator.pop(context);
-                    price = '0';
-                    setState(() {
-
-                    });
                   } : null,
                 ),
                 hintText: 'Make your bid',
               ),
             ),
           ]
-      ),
+      ) : modalType == 'UPDATE' ? Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Container(
+              alignment: Alignment.topRight,
+              child: IconButton(
+                icon: Icon(Icons.remove_circle,
+                  color: Colors.blue[500], size: 30,),
+                onPressed: () => Navigator.pop(context),
+
+              ),
+            ),
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text('Min bid price : \$$lowestBidPrice'),
+                  Text('You have bid : \$$userBidPrice'),
+                ],
+              )
+
+            ),
+
+            Container(
+                child: Row(
+                  children: [
+
+                  ],
+                )
+            ),
+            TextField(
+              autofocus: true,
+              keyboardType: TextInputType.number,
+
+              onChanged: (text) {
+                if(text.length >= 1 ) setState(() {
+                  price = text;
+                });
+                print('First text field: $price');
+
+              },
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                suffixIcon: IconButton(
+                  disabledColor: Colors.grey,
+                  icon: Icon(Icons.monetization_on, size: 35,),
+                  onPressed: int.parse(lowestBidPrice) <= int.parse(price) ? () {
+                    BidsManagement().updateBid(price, userId, itemId);
+                    Navigator.pop(context);
+                  } : null,
+                ),
+                hintText: '\$$userBidPrice',
+              ),
+            ),
+          ]
+      ) : Container() ,
     );
   }
 }
