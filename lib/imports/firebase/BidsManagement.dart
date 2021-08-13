@@ -7,13 +7,13 @@ class BidsManagement{
       await FirebaseFirestore.instance.
       collection('items')
           .doc(itemId)
-          .collection('bid-users')
-          .add({
+          .collection('bid-users').doc(user.uid)
+          .set({
         'bidPrice': int.parse(bidPrice),
         'userId': user.uid,
         'itemId': itemId,
         'bidAt': DateTime.now()
-      });
+      }, SetOptions(merge: true));
 
       await FirebaseFirestore.instance.
       collection('items')
