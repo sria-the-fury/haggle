@@ -137,7 +137,7 @@ class _BottomModalState extends State<BottomModal> {
                 suffixIcon: IconButton(
                   disabledColor: Colors.grey,
                   icon: Icon(Icons.monetization_on, size: 35,),
-                  onPressed: int.parse(lowestBidPrice) <= int.parse(price) ? () {
+                  onPressed: int.parse(userBidPrice) < int.parse(price) ? () {
                     BidsManagement().updateBid(price, userId, itemId);
                     Navigator.pop(context);
                   } : null,

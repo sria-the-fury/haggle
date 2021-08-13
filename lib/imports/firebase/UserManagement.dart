@@ -21,21 +21,30 @@ class UserManagement {
     }
   }
 
-  getUserPostedUser(userId, isFullName) {
+  getPostedUser(userId, isFullName, avatarSize, fontSize, colorWhite, isFontBold, isRow) {
 
     return new StreamBuilder(
         stream: FirebaseFirestore.instance.collection('users').doc(userId).snapshots(),
         builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
           if (snapshot.hasData) {
             var userData = snapshot.data;
-            return Row(
+            return isRow ? Row(
                 children: [
                   CircleAvatar(
                     backgroundImage: NetworkImage(userData!['photoURL'],),
-                    radius: 10,
+                    radius: avatarSize,
                   ),
                   SizedBox(width: 5,),
-                  getName(userData['userName'], isFullName)
+                  getName(userData['userName'], isFullName, fontSize, colorWhite, isFontBold)
+                ]
+            ) : Column(
+                children: [
+                  CircleAvatar(
+                    backgroundImage: NetworkImage(userData!['photoURL'],),
+                    radius: avatarSize,
+                  ),
+                  SizedBox(width: 5,),
+                  getName(userData['userName'], isFullName, fontSize, colorWhite, isFontBold)
                 ]
             );
 
@@ -47,14 +56,15 @@ class UserManagement {
     );
   }
 
-  getName(name, naming) {
+  getName(name, naming, fontSize, colorWhite, isFontBold,) {
     List<String> nameList = name.split(" ");
 
       if(naming == 'SHORT_NAME'){
-        return Text(nameList[0], style: TextStyle(fontSize: 14));
+        return Text(nameList[0],
+            style: TextStyle(fontSize: fontSize, fontWeight: isFontBold ? FontWeight.bold : FontWeight.normal, color: colorWhite ? Colors.white : Colors.black.withOpacity(0.7)));
       } else if(naming == "MODERATE_NAME"){
-        return Text(nameList[0] + ' '+nameList[1], style: TextStyle(fontSize: 14));
-      } else return Text(name, style: TextStyle(fontSize: 14));
+        return Text(nameList[0] + ' '+nameList[1], style: TextStyle(fontSize: fontSize, fontWeight: isFontBold ? FontWeight.bold : FontWeight.normal, color: colorWhite ? Colors.white : Colors.black.withOpacity(0.7)));
+      } else return Text(name, style: TextStyle(fontSize: fontSize, fontWeight: isFontBold ? FontWeight.bold : FontWeight.normal, color: colorWhite ? Colors.white : Colors.black.withOpacity(0.7)));
     }
 
 }
