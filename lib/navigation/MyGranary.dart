@@ -106,7 +106,6 @@ class _MyGranaryState extends State<MyGranary> {
             stream: FirebaseFirestore.instance
                 .collection('items').where('userId', isEqualTo: currentUser!.uid).snapshots(includeMetadataChanges: true),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              print(snapshot.hasData);
 
               return snapshot.hasData ?
               GesturedCard(snapshot.data!.docs) :
@@ -116,7 +115,7 @@ class _MyGranaryState extends State<MyGranary> {
         Container(
           child: StreamBuilder <QuerySnapshot> (
             stream: FirebaseFirestore.instance
-                .collection('items').where('bidUsers', arrayContains: [currentUser!.uid]).snapshots(includeMetadataChanges: true),
+                .collection('items').where('bidUsers', arrayContains: currentUser!.uid).snapshots(includeMetadataChanges: true),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
 
               return snapshot.hasData ?
