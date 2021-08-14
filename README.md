@@ -60,7 +60,7 @@ Confirm that you have everything installed correctly for running this project.
 ![dashboard](snapShots/Screenshot_20210814-161636_haggle.png "Dashboard")
 
 ## To Reach Me
-you can find me google by typing my name "Jakaria Mashud Shahria"
+you can find me on google by typing my name "Jakaria Mashud Shahria"
 if you find any difficulty or need to contact me knock me on whatsapp or [telegram](https:t.me/jakariamsria)
 or email me at [jakariamsria@gmail.com](mailto:jakariamsria@gmail.com),
 or [shahria@oasisoneiric.tech](mailto:shahria@oasisoneiric.tech)
