@@ -43,14 +43,12 @@ class _DashboardState extends State<Dashboard> {
             .collection('items').where('isCompleted', isEqualTo: true).snapshots(includeMetadataChanges: true),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if(snapshot.hasData){
-
-            //
-            // var totalValue = data.reduce((x, y){
-            //   var bidPriceX = x['minBidPrice'];
-            //   var bidPricey = y['minBidPrice'];
-            //   return bidPriceX + bidPricey;
-            // });
-            // print('totalValue --> $totalValue');
+            var data = snapshot.data!.docs;
+            int total = 0;
+            data.forEach((singleData) {
+              int bidPrice = singleData['minBidPrice'];
+              total += bidPrice;
+            });
 
             return Container(
                 padding: EdgeInsets.all(10.0),
@@ -59,7 +57,7 @@ class _DashboardState extends State<Dashboard> {
                     borderRadius: BorderRadius.circular(40.0)
                 ),
                 margin: EdgeInsets.only(top: 20),
-                child: Text('\$'+120.toString(),style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22.0, color: Colors.white))
+                child: Text('\$'+ total.toString(),style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22.0, color: Colors.white))
             );
 
           }
