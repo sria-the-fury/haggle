@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
-import 'package:haggle/imports/firebase/BidsManagement.dart';
 import 'package:haggle/imports/firebase/UserManagement.dart';
 
 import 'package:haggle/imports/utilities/BidsDataTable.dart';
@@ -60,7 +59,7 @@ class _BidsItemDetailsState extends State<BidsItemDetails> {
                           SizedBox(height: 5,),
                           Carousel().imageCarousel(item['itemImages'], 220.0),
                           Container(
-                            child: AuctionTime().getCountDown(item['lastBidTime']),
+                            child: AuctionTime().getCountDown(item['lastBidTime'], item['itemId'], item['isCompleted']),
                           ),
 
                           Container(
@@ -105,9 +104,6 @@ class _BidsItemDetailsState extends State<BidsItemDetails> {
                                     widgetBuilder: (BuildContext context, CurrentRemainingTime? time) {
 
                                       if (time == null) {
-                                        if(item.containsKey('isCompleted') && item['isCompleted'] == false) {
-                                          BidsManagement().auctionCompleted(item['itemId']);
-                                        }
                                         return StreamBuilder(
                                           stream: FirebaseFirestore.instance.collection('items')
                                               .doc(item['itemId']).collection('bid-users').orderBy('bidPrice', descending: true).limit(1).snapshots(),

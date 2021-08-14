@@ -48,7 +48,7 @@ class _GesturedCardState extends State<GesturedCard> {
                   ),
                   Carousel().imageCarousel(itemData['itemImages'], 180.0),
                   Container(
-                    child: AuctionTime().getCountDown(itemData['lastBidTime']),
+                    child: AuctionTime().getCountDown(itemData['lastBidTime'], itemData['itemId'], itemData['isCompleted']),
                   ),
 
                   Container(

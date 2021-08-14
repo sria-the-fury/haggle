@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
+import 'package:haggle/imports/firebase/BidsManagement.dart';
 import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 
 class AuctionTime{
-   getCountDown(lastBidTime){
+   getCountDown(lastBidTime, itemId, isCompleted){
 
     var timeInMilliSeconds = (lastBidTime.seconds * 1000);
 
@@ -15,6 +16,9 @@ class AuctionTime{
       widgetBuilder: (BuildContext context, CurrentRemainingTime? time) {
 
         if (time == null) {
+          if(isCompleted == false) {
+            BidsManagement().auctionCompleted(itemId);
+          }
           return Chip(
            avatar: Icon(Icons.timer_off, size: 15, color: Colors.white,),
            label: Text("BID OVER "+getPostedDay(lastBidTime), style: TextStyle(color: Colors.white),),

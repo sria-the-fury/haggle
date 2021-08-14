@@ -41,6 +41,7 @@ dependencies:
   lottie:
   file_picker:
   uuid:
+  syncfusion_flutter_charts:
 
 dev_dependencies:
   flutter_test:
