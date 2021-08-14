@@ -10,7 +10,7 @@ An auction Application using flutter and firebase, is in progress instructed by 
 
 and use different kinds of package for building this application.
 
-##<ins>Problem I have faced<ins/>
+## <ins>Problem I have faced<ins/>
 
 I used Flutter more than two years ago, and honestly I am not a flutter stack.
 Only I know the basics about. I have totally shifted myself in React and React Native.
@@ -31,7 +31,7 @@ I wish I learn more things, if I stick with this.
 Maybe this is not the good way to build an application.
 There has to be some plan how the files and code are organized  well, for that you have to need time for planning.
 
-##Problem you may face
+## Problem you may face
 Confirm that you have everything installed correctly for running this project.
 
 - check Flutter SDK
