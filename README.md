@@ -6,6 +6,7 @@ An auction Application using flutter and firebase, is in progress instructed by 
 ### Package use:
 - firebase_auth
 - firebase_cloud_firestore
+- firebase_storage
 - google_auth
 
 and use different kinds of package for building this application.
@@ -38,4 +39,28 @@ Confirm that you have everything installed correctly for running this project.
 - Android SDK
 - JDK
 - last thing -> check /haggle/android/local.properties , place there your flutter sdk path.
+- install the packages by 'flutter pub get'
 
+## Let see some interface
+
+- Home Page
+![homePage](snapShots/Screenshot_20210814-155856_haggle.png "Home Page")
+- Details Page
+![detailsScreen](snapShots/Screenshot_20210814-154112_haggle.png "Details Page")
+![detailsScreen](snapShots/Screenshot_20210814-154145_haggle.png "Details Page after bidding")
+![detailsScreen](snapShots/Screenshot_20210814-154204_haggle.png "Details Page edit bid")
+![detailsScreen](snapShots/Screenshot_20210814-153837_haggle.png "Details Page when bid time is over no one mad a bid")
+![detailsScreen](snapShots/Screenshot_20210814-153817_haggle.png "Details Page winner")
+- Users gallery
+![user Screen](snapShots/Screenshot_20210814-153735_haggle.png "Users Page")
+- Show users where they make a bid
+![user Screen](snapShots/Screenshot_20210814-155000_haggle.png "Users Page")
+- in progress ( User Profile and DashBoard)
+![user Screen](snapShots/Screenshot_20210814-161629_haggle.png "Users Profile")
+![dashboard](snapShots/Screenshot_20210814-161636_haggle.png "Dashboard")
+
+## To Reach Me
+you can find me google by typing my name "Jakaria Mashud Shahria"
+if you find any difficulty or need to contact me knock me on whatsapp or [telegram](https:t.me/jakariamsria)
+or email me at [jakariamsria@gmail.com](mailto:jakariamsria@gmail.com),
+or [shahria@oasisoneiric.tech](mailto:shahria@oasisoneiric.tech)
