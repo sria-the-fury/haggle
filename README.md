@@ -2,8 +2,9 @@
 
 An auction Application using flutter and firebase, is in progress instructed by [Taka.school](https://taka.school)
 
-Here is the build release ['APK Click here to Download'](https://doc-0s-9g-docs.googleusercontent.com/docs/securesc/5jode3m2h8c3e9j5kh40oqkd3t33l0rc/s1ufg0090g4pa5c2ml8fd0sjdshvbl7i/1628964300000/08760986305382113051/08760986305382113051/1-fJttyLJTVqCyc2g0AlyZX5GLTFotd5H?e=download&authuser=0&nonce=pndv6iafpalik&user=08760986305382113051&hash=ml3bfcvjq5so5kqub4vot0sbl2fhkmhv).
+Here is the build release ['APK Click here to Download'](https://drive.google.com/file/d/1-fJttyLJTVqCyc2g0AlyZX5GLTFotd5H/view?usp=sharing).
 I have tested it with two Android phones. As far as it is good. But if you get an issue or issues, please let me know.
+
 
 
 
