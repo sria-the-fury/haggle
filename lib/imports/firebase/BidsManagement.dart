@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:haggle/imports/utilities/FlutterToast.dart';
 
-class BidsManagement{
+class BidsManagement {
   makeBid(bidPrice, user, itemId) async {
-    try{
+    try {
       await FirebaseFirestore.instance.
       collection('items')
           .doc(itemId)
@@ -20,19 +20,17 @@ class BidsManagement{
           .doc(itemId)
           .set({
         'bidUsers': FieldValue.arrayUnion([user.uid])
-
       }, SetOptions(merge: true));
-    }catch(e){
+    } catch (e) {
       FlutterToast().errorToast('@store :', 'BOTTOM', 14.0, e);
     }
-    finally{
+    finally {
       FlutterToast().successToast('Bid has been made', 'BOTTOM', 14.0, null);
     }
-
   }
 
-  updateBid(editedBidPrice, userId, itemId) async{
-    try{
+  updateBid(editedBidPrice, userId, itemId) async {
+    try {
       await FirebaseFirestore.instance.
       collection('items')
           .doc(itemId)
@@ -41,41 +39,49 @@ class BidsManagement{
         'bidPrice': int.parse(editedBidPrice),
         'bidAt': DateTime.now()
       });
-
-    }catch(e){
+    } catch (e) {
       FlutterToast().errorToast('@store :', 'BOTTOM', 14.0, e);
     }
-    finally{
+    finally {
       FlutterToast().successToast('Bid has been updated', 'BOTTOM', 14.0, null);
     }
-
   }
 
-  addItem(itemName, itemDesc, bidPrice, bidEndTime, userId, images, itemId) async{
-    try{
+  addItem(itemName, itemDesc, bidPrice, bidEndTime, userId, images,
+      itemId) async {
+    try {
       await FirebaseFirestore.instance.
       collection('items')
           .doc(itemId)
           .set({
-        'createdAt': DateTime.now(),
         'itemName': itemName,
         'itemId': itemId,
         'itemImages': images,
         'itemDesc': itemDesc,
+        'isCompleted': false,
         'lastBidTime': bidEndTime,
-        'bidUsers':[],
+        'bidUsers': [],
         'minBidPrice': int.parse(bidPrice),
         'userId': userId,
         'bidAt': DateTime.now()
       }, SetOptions(merge: true));
-    } catch(e) {
+    } catch (e) {
       print(e.toString());
     }
-    finally{
+    finally {
 
     }
-
   }
 
+  auctionCompleted(itemId) async {
+    try {
+      await FirebaseFirestore.instance.collection('items').doc(itemId).update({
+        'isCompleted': true
+      });
+    } catch (e) {
+      print(e.toString());
+
+    }
+  }
 
 }

@@ -40,6 +40,7 @@ class _AddItemModalState extends State<AddItemModal> {
   Future _selectFile () async{
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: true,
+      allowCompression: true,
       type: FileType.custom,
       allowedExtensions: ['jpg', 'png', 'jpeg'],
     );

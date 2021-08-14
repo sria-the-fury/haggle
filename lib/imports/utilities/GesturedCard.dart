@@ -41,7 +41,7 @@ class _GesturedCardState extends State<GesturedCard> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           UserManagement().getPostedUser(itemData['userId'], 'MODERATE_NAME', 10.0, 14.0, false, false, true),
-                          Text(AuctionTime().getPostedDay(itemData['createdAt']))
+                          Text(AuctionTime().getPostedDay(itemData['bidAt']))
                         ],
                       )
 
