@@ -268,7 +268,7 @@ class _AddItemModalState extends State<AddItemModal> {
                       showSheet(context, child: buildDatePicker(),
                           onClicked: () {
                             Navigator.pop(context);
-                            if(dateTime.minute < DateTime.now().minute + 9 && dateTime.hour ==  DateTime.now().hour){
+                            if(dateTime.minute < DateTime.now().minute + 9 && dateTime.hour ==  DateTime.now().hour && dateTime.day == DateTime.now().day){
                               setState(() {
                                 isLessTime = true;
                               });
@@ -289,7 +289,7 @@ class _AddItemModalState extends State<AddItemModal> {
                 ),
                 SizedBox(height: 25),
 
-                if (dateTime.minute > ((DateTime.now().minute)+10) || dateTime.hour > DateTime.now().hour) Container(
+                if (dateTime.minute > ((DateTime.now().minute)+10) || dateTime.hour > DateTime.now().hour || dateTime.day > DateTime.now().day) Container(
                     width: MediaQuery.of(context).size.width,
                     padding: EdgeInsets.symmetric(horizontal:5.0, vertical: 5.0),
 
