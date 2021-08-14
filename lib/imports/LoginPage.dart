@@ -20,7 +20,7 @@ class _LoginPageState extends State<LoginPage>{
       idToken: googleAuth.idToken,
     );
     var isSignIn =  await FirebaseAuth.instance.signInWithCredential(credential);
-    print(isSignIn.additionalUserInfo?.isNewUser);
+
     User? user = FirebaseAuth.instance.currentUser;
 
     if(user != null){

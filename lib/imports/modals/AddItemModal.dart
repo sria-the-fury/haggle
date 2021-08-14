@@ -167,7 +167,7 @@ class _AddItemModalState extends State<AddItemModal> {
                     CarouselSlider(
                       options: CarouselOptions(height: 220.0, enableInfiniteScroll: true),
                       items: files!.map<Widget>((image) {
-                        print(image.path);
+
                         return new Builder(
                           builder: (BuildContext context) {
                             return Container(

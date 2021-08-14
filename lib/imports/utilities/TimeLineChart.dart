@@ -29,8 +29,7 @@ class _TimeLineChartState extends State<TimeLineChart> {
             var bidPrice = eachData['minBidPrice'];
             var date = eachData['bidAt'];
             var getDay = DateTime.fromMillisecondsSinceEpoch(date.seconds * 1000).day;
-            print('getDay ==> $getDay');
-            print('bidPrice ==> $bidPrice');
+
             return BidsPricePerDay(getDay, bidPrice);
 
           }).toList();
@@ -42,7 +41,7 @@ class _TimeLineChartState extends State<TimeLineChart> {
             tooltipBehavior: _tooltipBehavior,
             series: <ChartSeries>[
               LineSeries<BidsPricePerDay, int>(
-                  name: 'Bids\' price',
+                  name: 'Bids\' price/ day',
                   dataSource: bidsData,
                   xValueMapper: (BidsPricePerDay bidsPerDay, _) => bidsPerDay.day,
                   yValueMapper: (BidsPricePerDay bidsPerDay, _) => bidsPerDay.bidPrice,

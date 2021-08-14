@@ -28,10 +28,6 @@ class _BottomModalState extends State<BottomModal> {
     var userBidPrice = widget.userBidPrice.toString();
     var modalType = widget.modalType;
 
-    print('userId =>  $userId');
-    print('modalType =>  $modalType');
-    print('userBidPrice =>  ${userBidPrice.toString()}');
-
 
     User? user = FirebaseAuth.instance.currentUser;
     return new Container(
@@ -73,7 +69,6 @@ class _BottomModalState extends State<BottomModal> {
                 if(text.length >= 1 ) setState(() {
                   price = text;
                 });
-                print('First text field: $price');
 
               },
               decoration: InputDecoration(
@@ -129,7 +124,6 @@ class _BottomModalState extends State<BottomModal> {
                 if(text.length >= 1 ) setState(() {
                   price = text;
                 });
-                print('First text field: $price');
 
               },
               decoration: InputDecoration(
