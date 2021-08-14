@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -10,57 +11,72 @@ class TimeLineChart extends StatefulWidget {
 }
 
 class _TimeLineChartState extends State<TimeLineChart> {
-  List<SalesData> _chartData = getChartData();
+
   TooltipBehavior _tooltipBehavior = TooltipBehavior(enable: true);
 
-  @override
-  void initState() {
-    _chartData = getChartData();
-    _tooltipBehavior = TooltipBehavior(enable: true);
-    super.initState();
+
+  Widget _buildBody(BuildContext context){
+    return StreamBuilder <QuerySnapshot> (
+      stream: FirebaseFirestore.instance
+          .collection('items').snapshots(includeMetadataChanges: true),
+      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+
+        if(snapshot.hasData){
+          var data = snapshot.data!.docs;
+
+          var bidsPerDay = data.map((eachData){
+
+            var bidPrice = eachData['minBidPrice'];
+            var date = eachData['bidAt'];
+            var getDay = DateTime.fromMillisecondsSinceEpoch(date.seconds * 1000).day;
+            print('getDay ==> $getDay');
+            print('bidPrice ==> $bidPrice');
+            return BidsPricePerDay(getDay, bidPrice);
+
+          }).toList();
+          List<BidsPricePerDay> bidsData = bidsPerDay;
+
+          return SfCartesianChart(
+            title: ChartTitle(text: 'Daily Bid analysis'),
+            legend: Legend(isVisible: true),
+            tooltipBehavior: _tooltipBehavior,
+            series: <ChartSeries>[
+              LineSeries<BidsPricePerDay, int>(
+                  name: 'Bids\' price',
+                  dataSource: bidsData,
+                  xValueMapper: (BidsPricePerDay bidsPerDay, _) => bidsPerDay.day,
+                  yValueMapper: (BidsPricePerDay bidsPerDay, _) => bidsPerDay.bidPrice,
+                  dataLabelSettings: DataLabelSettings(isVisible: true),
+                  enableTooltip: true
+              )
+            ],
+            primaryXAxis: NumericAxis(edgeLabelPlacement: EdgeLabelPlacement.shift),
+            primaryYAxis: NumericAxis(numberFormat: NumberFormat.simpleCurrency(decimalDigits: 0)),
+
+          );
+
+
+        }
+        else{
+          return Center( child: CircularProgressIndicator(color: Colors.white,));
+        }
+      }
+    );
+
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(child: Scaffold(
-      body: SfCartesianChart(
-        title: ChartTitle(text: 'Daily Bid analysis'),
-        legend: Legend(isVisible: true),
-        tooltipBehavior: _tooltipBehavior,
-        series: <ChartSeries>[
-          LineSeries<SalesData, double>(
-            name: 'Bids\' price',
-              dataSource: _chartData,
-            xValueMapper: (SalesData sales, _) => sales.year,
-            yValueMapper: (SalesData sales, _) => sales.sales,
-            dataLabelSettings: DataLabelSettings(isVisible: true),
-            enableTooltip: true
-          )
-        ],
-        primaryXAxis: NumericAxis(edgeLabelPlacement: EdgeLabelPlacement.shift),
-        primaryYAxis: NumericAxis(numberFormat: NumberFormat.simpleCurrency(decimalDigits: 0)),
-
-      ),
+      body: _buildBody(context),
     ));
   }
 }
 
 
-List<SalesData> getChartData(){
-final List<SalesData> chartData = [
-  SalesData(2017, 35),
-  SalesData(2018, 25),
-  SalesData(2019, 20),
-  SalesData(2019, 60),
-  SalesData(2020, 45),
-  SalesData(2021, 55),
-];
-
-return chartData;
-}
-class SalesData{
-  SalesData(this.year, this.sales);
-  final double year;
-  final double sales;
+class BidsPricePerDay{
+  final int day;
+  final int bidPrice;
+  BidsPricePerDay(this.day, this.bidPrice);
 
 }
