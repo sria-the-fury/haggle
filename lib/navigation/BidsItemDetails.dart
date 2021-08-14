@@ -60,7 +60,7 @@ class _BidsItemDetailsState extends State<BidsItemDetails> {
                           SizedBox(height: 5,),
                           Carousel().imageCarousel(item['itemImages'], 220.0),
                           Container(
-                            child: AuctionTime().getCountDown(details['lastBidTime']),
+                            child: AuctionTime().getCountDown(item['lastBidTime']),
                           ),
 
                           Container(
@@ -164,7 +164,7 @@ class _BidsItemDetailsState extends State<BidsItemDetails> {
                                           child: Column(
 
                                               children: [
-                                                hasBidUser || details['userId'] == user.uid ? Container() : FloatingActionButton.extended(
+                                                hasBidUser || item['userId'] == user.uid ? Container() : FloatingActionButton.extended(
                                                   onPressed: () {
                                                     showModalBottomSheet<void>(
                                                         context: context,
