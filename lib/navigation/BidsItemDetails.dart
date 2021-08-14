@@ -159,7 +159,7 @@ class _BidsItemDetailsState extends State<BidsItemDetails> {
                                           child: Column(
 
                                               children: [
-                                                hasBidUser ? Container() : FloatingActionButton.extended(
+                                                hasBidUser || details['userId'] == user.uid ? Container() : FloatingActionButton.extended(
                                                   onPressed: () {
                                                     showModalBottomSheet<void>(
                                                         context: context,

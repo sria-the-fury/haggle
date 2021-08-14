@@ -64,7 +64,7 @@ class BidsDataTable {
                           color: MaterialStateColor.resolveWith((states) => currentUserId == user['userId'] ?  Colors.black.withOpacity(0.2) : Colors.transparent),
                           cells:  <DataCell>[
                             DataCell(
-                                UserManagement().getPostedUser(user['userId'], 'SHORT_NAME', 10.0, 14.0, false, false, false)
+                                UserManagement().getPostedUser(user['userId'], 'SHORT_NAME', 10.0, 14.0, false, false, true)
 
                             ),
                             DataCell(
