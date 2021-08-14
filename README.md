@@ -20,7 +20,10 @@ New methods have come to implement.
 So if you don't stick on particular thing, it may fall you into some trouble.
 
 But that doesn't mean that you don't know anything, or you can't do any things.
-I honestly believe that anyone can do what they have to be effort. I wish I learn more things, if I stick with this.
+I honestly believe that anyone can do what they have to be effort. 
+I have followed the official documentation for working on this project.
+Nothing is more helpful than official documentation if it is well documented.
+I wish I learn more things, if I stick with this.
 
 - I have found difficulty to mapping firestoreJSONQuery. Mapping any data is easy on JavaScript. but I have figured out the way.
 - Others are not so major problem. 
@@ -28,6 +31,11 @@ I honestly believe that anyone can do what they have to be effort. I wish I lear
 Maybe this is the good way to build an application.
 There has to be some plan how the files and code are organized  well, for that you have to need time for planning.
 
+##Problem you may face
+Confirm that you have everything installed correctly for running this project.
 
-
+- check Flutter SDK
+- Android SDK
+- JDK
+- last thing -> check /haggle/android/local.properties , place there your flutter sdk path.
 
