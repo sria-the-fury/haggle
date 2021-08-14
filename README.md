@@ -10,7 +10,7 @@ An auction Application using flutter and firebase, is in progress instructed by 
 
 and use different kinds of package for building this application.
 
-## <ins>Problem I have faced<ins/>
+## Problem I have faced
 
 I used Flutter more than two years ago, and honestly I am not a flutter stack.
 Only I know the basics about. I have totally shifted myself in React and React Native.
