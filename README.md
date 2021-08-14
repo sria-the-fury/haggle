@@ -28,7 +28,7 @@ I wish I learn more things, if I stick with this.
 - I have found difficulty to mapping firestoreJSONQuery. Mapping any data is easy on JavaScript. but I have figured out the way.
 - Others are not so major problem. 
 
-Maybe this is the good way to build an application.
+Maybe this is not the good way to build an application.
 There has to be some plan how the files and code are organized  well, for that you have to need time for planning.
 
 ##Problem you may face
