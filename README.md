@@ -2,6 +2,10 @@
 
 An auction Application using flutter and firebase, is in progress instructed by [Taka.school](https://taka.school)
 
+Here is the build release ['APK Click here to Download'](https://doc-0s-9g-docs.googleusercontent.com/docs/securesc/5jode3m2h8c3e9j5kh40oqkd3t33l0rc/s1ufg0090g4pa5c2ml8fd0sjdshvbl7i/1628964300000/08760986305382113051/08760986305382113051/1-fJttyLJTVqCyc2g0AlyZX5GLTFotd5H?e=download&authuser=0&nonce=pndv6iafpalik&user=08760986305382113051&hash=ml3bfcvjq5so5kqub4vot0sbl2fhkmhv).
+I have tested it with two Android phones. As far as it is good. But if you get an issue or issues, please let me know.
+
+
 
 ### Package use:
 - firebase_auth
@@ -55,11 +59,14 @@ Confirm that you have everything installed correctly for running this project.
 ![user Screen](snapShots/Screenshot_20210814-153735_haggle.png "Users Page")
 - Show users where they make a bid
 ![user Screen](snapShots/Screenshot_20210814-155000_haggle.png "Users Page")
-- in progress ( User Profile and DashBoard)
+- in progress ( User Profile )
 ![user Screen](snapShots/Screenshot_20210814-161629_haggle.png "Users Profile")
-![dashboard](snapShots/Screenshot_20210814-161636_haggle.png "Dashboard")
+- Dashboard
+![Dashboard](snapShots/Screenshot_20210814-234530_haggle.png "Dash board")
+- -TimeLine of BidsPricePerDay
+![Dashboard](snapShots/Screenshot_20210814-235046_haggle.png "TimeLine")
 
-## To Reach Me
+## Connect
 you can find me on Google by typing my name "Jakaria Mashud Shahria"
 if you find any difficulty or need to contact me knock me on whatsapp or [telegram](https:t.me/jakariamsria)
 or email me at [jakariamsria@gmail.com](mailto:jakariamsria@gmail.com),
