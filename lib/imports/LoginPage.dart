@@ -33,8 +33,7 @@ class _LoginPageState extends State<LoginPage>{
 
   @override
   Widget build(BuildContext context){
-    final ButtonStyle style =
-    ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
+
     return new Scaffold(
       body: Container(
           child: Container(
