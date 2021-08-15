@@ -48,23 +48,26 @@ Confirm that you have everything installed correctly for running this project.
 
 ## Let see some interface
 
-- Home Page
+- **_Home Page_** : In this portion users can see the auction ads posted by others. In every ad card users find how many people bid in this auction, the left people sign with number indicates this. Logged-in user see a light-orange color dollar sign if they have bid in this auction already.
 ![homePage](snapShots/Screenshot_20210814-155856_haggle.png "Home Page")
-- Details Page
+- **_Details Page_** : By tapping on each card, user can go to details page of this specific auction and can make bid if they want. Much valuable information are also found there, like a table of bid users which is sorted by high bid price. Bid users can edit their bid before end of the auction time. After ending of auction system will decide a winner who made high bid price among everyone.
 ![detailsScreen](snapShots/Screenshot_20210814-154112_haggle.png "Details Page")
 ![detailsScreen](snapShots/Screenshot_20210814-154145_haggle.png "Details Page after bidding")
 ![detailsScreen](snapShots/Screenshot_20210814-154204_haggle.png "Details Page edit bid")
 ![detailsScreen](snapShots/Screenshot_20210814-153837_haggle.png "Details Page when bid time is over no one mad a bid")
 ![detailsScreen](snapShots/Screenshot_20210814-153817_haggle.png "Details Page winner")
-- Users gallery
+- **_How To ADD item for Auction_** : There is a plus icon floating button on home page. Any user can add their product for auction.
+![Add item](snapShots/Screenshot_20210815-104324_haggle.png "Add item")
+![add item](snapShots/Screenshot_20210815-104827_haggle.png "select time from auction button")
+- **_Users gallery_** : Well, this is user section. users will find their items which they added for auction, and also find where they made a bid.
 ![user Screen](snapShots/Screenshot_20210814-153735_haggle.png "Users Page")
-- Show users where they make a bid
+- **_Show users where they made a bid_**
 ![user Screen](snapShots/Screenshot_20210814-155000_haggle.png "Users Page")
 - in progress ( User Profile )
 ![user Screen](snapShots/Screenshot_20210814-161629_haggle.png "Users Profile")
-- Dashboard
+- **_Dashboard_** : All users can see about the auctions, completed of running and what is the total value of completed bid.
 ![Dashboard](snapShots/Screenshot_20210814-234530_haggle.png "Dash board")
-- -TimeLine of BidsPricePerDay
+- **_TimeLine of BidsPricePerDay_** : Shows a line graph auctions' minBidPrice relative to day.
 ![Dashboard](snapShots/Screenshot_20210814-235046_haggle.png "TimeLine")
 
 ## Connect
