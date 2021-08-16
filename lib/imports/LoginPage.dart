@@ -11,24 +11,35 @@ class LoginPage extends StatefulWidget{
 }
 
 class _LoginPageState extends State<LoginPage>{
+  var isSignInLoading = false;
 
   _signInWithGoogle() async {
+    setState(() {
+      isSignInLoading = true;
+    });
     final GoogleSignInAccount?  googleUser = await GoogleSignIn().signIn();
-    final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
-    var isSignIn =  await FirebaseAuth.instance.signInWithCredential(credential);
+    if(googleUser != null ){
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+      var isSignIn =  await FirebaseAuth.instance.signInWithCredential(credential);
 
-    User? user = FirebaseAuth.instance.currentUser;
+      User? user = FirebaseAuth.instance.currentUser;
 
-    if(user != null){
-      if(isSignIn.additionalUserInfo?.isNewUser == true ) UserManagement().storeNewUser(user);
-      Navigator.of(context).pop();
-      Navigator.of(context).pushNamed('/homePage');
-      FlutterToast().successToast('Logged in as','DEFAULT', 14.0, user.email);
-    }
+      if(user != null){
+        if(isSignIn.additionalUserInfo?.isNewUser == true ) UserManagement().storeNewUser(user);
+
+        Navigator.of(context).pop();
+        Navigator.of(context).pushNamed('/homePage');
+
+        FlutterToast().successToast('Logged in as','DEFAULT', 14.0, user.email);
+      }
+    } else setState(() {
+      isSignInLoading = false;
+    });
+
   }
 
   @override
@@ -36,7 +47,8 @@ class _LoginPageState extends State<LoginPage>{
 
     return new Scaffold(
       body: Container(
-          child: Container(
+          child: isSignInLoading ? Center(child: CircularProgressIndicator(color: Colors.red[500]),)
+              :Container(
               padding: EdgeInsets.all(25.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -96,7 +108,7 @@ class _LoginPageState extends State<LoginPage>{
           )
 
       ),
-      floatingActionButton: FloatingActionButton.extended(onPressed: () async {
+      floatingActionButton: isSignInLoading ? Container() : FloatingActionButton.extended(onPressed: () async {
         try{
           await _signInWithGoogle();
 
