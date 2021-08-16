@@ -4,7 +4,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:haggle/imports/LoginPage.dart';
-import 'package:haggle/navigation/ProfilePage.dart';
 import 'package:haggle/imports/HomePage.dart';
 
 void main() async {
