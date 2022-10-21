@@ -2,6 +2,7 @@
 ## Haggle BD
 
 An auction Application using flutter and firebase, is in progress instructed by [Taka.school](https://taka.school)
+
 See the update design of Haggle name as HaggleBD - [Click to the repo](https://github.com/sria-the-fury/haggleBD).
 
 Please uninstall previous version. New update - 16-aug-1625 is available.
